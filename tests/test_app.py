@@ -37,7 +37,8 @@ def test_get_album(db_connection, page, test_web_address):
 
     paragraph_tags = page.locator("p")
     expect(paragraph_tags).to_have_text([
-        "Release year: 1988"
+        "Release year: 1988",
+        "Artist: Pixies"
     ])
     
 # When I call GET /artists

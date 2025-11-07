@@ -26,7 +26,7 @@ def get_albums():
 def get_album(id):
     connection = get_flask_database_connection(app)
     repository = AlbumRepository(connection)
-    db_album = repository.find(id)
+    db_album = repository.find_with_artist(id)
     return render_template('albums/show.html', album = db_album)
 
 @app.route('/artists', methods = ['GET'])
