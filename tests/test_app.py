@@ -27,11 +27,22 @@ def test_visit_album_show_page(db_connection, page, test_web_address):
     h1_tag = page.locator("h1")
     expect(h1_tag).to_have_text("Album: Surfer Rosa")
 
-    paragraph_tags = page.locator("p")
-    expect(paragraph_tags).to_have_text([
+    details_tag = page.locator(".details p")
+    expect(details_tag).to_have_text([
         "Release year: 1988",
         "Artist: Pixies"
     ])
+
+# Test go back button
+
+def test_visit_album_show_page_and_go_back(db_connection, page, test_web_address):
+    db_connection.seed("seeds/music_library.sql")
+    page.goto(f"http://{test_web_address}/albums")
+    page.click("text='Surfer Rosa'")
+    page.click("text='Go back to album list'")
+
+    h1_tag = page.locator("h1")
+    expect(h1_tag).to_have_text("Albums")
 
 # When I go to http://localhost:5001/albums/1
 # I get a single album
@@ -43,8 +54,8 @@ def test_get_album(db_connection, page, test_web_address):
     h1_tags = page.locator("h1")
     expect(h1_tags).to_have_text("Album: Surfer Rosa")
 
-    paragraph_tags = page.locator("p")
-    expect(paragraph_tags).to_have_text([
+    details_tag = page.locator(".details p")
+    expect(details_tag).to_have_text([
         "Release year: 1988",
         "Artist: Pixies"
     ])
