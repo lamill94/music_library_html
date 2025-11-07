@@ -4,7 +4,7 @@ from lib.album_repository import AlbumRepository
 from lib.album import Album
 from lib.artist_repository import ArtistRepository
 from lib.artist import Artist
-from flask import Flask, request
+from flask import Flask, request, render_template, redirect, url_for
 
 # Create a new Flask app
 app = Flask(__name__)
@@ -15,7 +15,8 @@ app = Flask(__name__)
 def get_albums():
     connection = get_flask_database_connection(app)
     repository = AlbumRepository(connection)
-    return "\n".join([str(album) for album in repository.all()])
+    db_albums = repository.all()
+    return render_template('albums/index.html', albums = db_albums)
 
 @app.route('/artists', methods = ['GET'])
 def get_artists():
