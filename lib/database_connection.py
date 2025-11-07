@@ -65,6 +65,7 @@ class DatabaseConnection:
             return result
         
 # This function integrates with Flask to create one DB connection that Flask request can use (see app.py for its use)
+
 def get_flask_database_connection(app):
     if not hasattr(g, 'flask_database_connection'):
         g.flask_database_connection = DatabaseConnection(test_mode = ((os.getenv('APP_ENV') == 'test') or (app.config['TESTING'] == True)))
