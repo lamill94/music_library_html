@@ -7,13 +7,9 @@ def test_get_albums(db_connection, web_client):
     assert response.status_code == 200
     assert response.data.decode('utf-8') == "\n".join([
         "Album(1, Surfer Rosa, 1988, 1)",
-        "Album(2, Doolittle, 1989, 1)",
-        "Album(3, Ring Ring, 1973, 2)",
-        "Album(4, Waterloo, 1974, 2)",
-        "Album(5, Lover, 2019, 3)",
-        "Album(6, Folklore, 2020, 3)",
-        "Album(7, I Put a Spell on You, 1965, 4)",
-        "Album(8, Here Comes the Sun, 1971, 4)"
+        "Album(2, Waterloo, 1974, 2)",
+        "Album(3, Folklore, 2020, 3)",
+        "Album(4, I Put a Spell on You, 1965, 4)"
     ])
 
 # When I call GET /artists
@@ -47,15 +43,12 @@ def test_post_albums(db_connection, web_client):
     assert get_response.status_code == 200
     assert get_response.data.decode('utf-8') == "\n".join([
         "Album(1, Surfer Rosa, 1988, 1)",
-        "Album(2, Doolittle, 1989, 1)",
-        "Album(3, Ring Ring, 1973, 2)",
-        "Album(4, Waterloo, 1974, 2)",
-        "Album(5, Lover, 2019, 3)",
-        "Album(6, Folklore, 2020, 3)",
-        "Album(7, I Put a Spell on You, 1965, 4)",
-        "Album(8, Here Comes the Sun, 1971, 4)",
-        "Album(9, Baltimore, 1978, 4)"
+        "Album(2, Waterloo, 1974, 2)",
+        "Album(3, Folklore, 2020, 3)",
+        "Album(4, I Put a Spell on You, 1965, 4)",
+        "Album(5, Baltimore, 1978, 4)"
     ])
+
 
 # When I call POST /artists with artist info
 # That artist is now in the list in GET /artists
@@ -89,13 +82,9 @@ def test_post_albums_no_data(db_connection, web_client):
     assert get_response.status_code == 200
     assert get_response.data.decode('utf-8') == "\n".join([
         "Album(1, Surfer Rosa, 1988, 1)",
-        "Album(2, Doolittle, 1989, 1)",
-        "Album(3, Ring Ring, 1973, 2)",
-        "Album(4, Waterloo, 1974, 2)",
-        "Album(5, Lover, 2019, 3)",
-        "Album(6, Folklore, 2020, 3)",
-        "Album(7, I Put a Spell on You, 1965, 4)",
-        "Album(8, Here Comes the Sun, 1971, 4)"
+        "Album(2, Waterloo, 1974, 2)",
+        "Album(3, Folklore, 2020, 3)",
+        "Album(4, I Put a Spell on You, 1965, 4)"
     ])
 
 # When I call POST /artists with no data
