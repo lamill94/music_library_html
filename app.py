@@ -20,6 +20,15 @@ def get_albums():
     db_albums = repository.all()
     return render_template('albums/index.html', albums = db_albums)
 
+# GET /artists
+# Returns a list of artists
+@app.route('/artists', methods = ['GET'])
+def get_artists():
+    connection = get_flask_database_connection(app)
+    repository = ArtistRepository(connection)
+    db_artists = repository.all()
+    return render_template('artists/index.html', artists = db_artists)
+
 # GET /albums/<id>
 # Returns a single album
 @app.route('/albums/<int:id>', methods = ['GET'])
@@ -29,11 +38,14 @@ def get_album(id):
     db_album = repository.find_with_artist(id)
     return render_template('albums/show.html', album = db_album)
 
-@app.route('/artists', methods = ['GET'])
-def get_artists():
+# GET /artists/<id>
+# Returns a single artist
+@app.route('/artists/<int:id>', methods = ['GET'])
+def get_artist(id):
     connection = get_flask_database_connection(app)
     repository = ArtistRepository(connection)
-    return "\n".join([str(artist) for artist in repository.all()])
+    db_artist = repository.find_with_albums(id)
+    return render_template('artists/show.html', artist = db_artist)
 
 @app.route('/albums', methods = ['POST'])
 def post_albums():

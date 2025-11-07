@@ -1,9 +1,10 @@
 class Artist:
 
-    def __init__(self, id, name, genre):
+    def __init__(self, id, name, genre, albums = []):
         self.id = id
         self.name = name
         self.genre = genre
+        self.albums = albums
 
     # This method allows our tests to assert that the object it expects are the objects we made based on the DB records
     def __eq__(self, other):

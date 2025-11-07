@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Single Artist</title>
+</head>
+<body>
+
+    <h1>Artist: {{artist.name}}</h1>
+    
+    <div class = "details">
+        <p>Genre: {{artist.genre}}</p>
+        <p>
+            Albums:
+            {% for album in artist.albums %}
+                {{album.title}} ({{album.release_year}}){{"," if not loop.last else ""}}
+            {% endfor %}
+        </p>
+    </div>
+
+    <p><a href="/artists">Go back to artist list</a></p>
+    
+</body>
+</html>
