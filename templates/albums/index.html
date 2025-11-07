@@ -6,15 +6,14 @@
     <title>Album List</title>
 </head>
 <body>
-
+    
     <h1>Albums</h1>
 
-    {% for album in albums %}
-    <article>
-        <h3>Title: {{album.title}}</h3>
-        <p>Released: {{album.release_year}}</p>
-    </article>
-    {% endfor %}
+    <ul>
+        {% for album in albums %}
+        <li><a href = "/albums/{{album.id}}">{{album.title}}</a></li>
+        {% endfor %}
+    </ul>
 
 </body>
 </html>

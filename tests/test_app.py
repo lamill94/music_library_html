@@ -7,20 +7,30 @@ def test_get_albums(db_connection, page, test_web_address):
     db_connection.seed("seeds/music_library.sql")
     page.goto(f"http://{test_web_address}/albums")
 
-    h3_tags = page.locator("h3")
-    expect(h3_tags).to_have_text([
-        "Title: Surfer Rosa",
-        "Title: Waterloo",
-        "Title: Folklore",
-        "Title: I Put a Spell on You"
+    li_tags = page.locator("li")
+    expect(li_tags).to_have_text([
+        "Surfer Rosa",
+        "Waterloo",
+        "Folklore",
+        "I Put a Spell on You"
     ])
+
+# The page returned by GET /albums should contain a link for each album listed
+# It should link to '/albums/<id>', where each <id> is the corresponding album's id
+# That page should then show information about the specific album
+
+def test_visit_album_show_page(db_connection, page, test_web_address):
+    db_connection.seed("seeds/music_library.sql")
+    page.goto(f"http://{test_web_address}/albums")
+    page.click("text='Surfer Rosa'")
+
+    h1_tag = page.locator("h1")
+    expect(h1_tag).to_have_text("Album: Surfer Rosa")
 
     paragraph_tags = page.locator("p")
     expect(paragraph_tags).to_have_text([
-        "Released: 1988",
-        "Released: 1974",
-        "Released: 2020",
-        "Released: 1965"
+        "Release year: 1988",
+        "Artist: Pixies"
     ])
 
 # When I go to http://localhost:5001/albums/1
@@ -31,9 +41,7 @@ def test_get_album(db_connection, page, test_web_address):
     page.goto(f"http://{test_web_address}/albums/1")
 
     h1_tags = page.locator("h1")
-    expect(h1_tags).to_have_text([
-        "Surfer Rosa"
-    ])
+    expect(h1_tags).to_have_text("Album: Surfer Rosa")
 
     paragraph_tags = page.locator("p")
     expect(paragraph_tags).to_have_text([
