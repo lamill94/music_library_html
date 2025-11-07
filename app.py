@@ -11,12 +11,23 @@ app = Flask(__name__)
 
 # Routes go here:
 
+# GET /albums
+# Returns a list of albums
 @app.route('/albums', methods = ['GET'])
 def get_albums():
     connection = get_flask_database_connection(app)
     repository = AlbumRepository(connection)
     db_albums = repository.all()
     return render_template('albums/index.html', albums = db_albums)
+
+# GET /albums/<id>
+# Returns a single album
+@app.route('/albums/<int:id>', methods = ['GET'])
+def get_album(id):
+    connection = get_flask_database_connection(app)
+    repository = AlbumRepository(connection)
+    db_album = repository.find(id)
+    return render_template('albums/show.html', album = db_album)
 
 @app.route('/artists', methods = ['GET'])
 def get_artists():

@@ -22,6 +22,23 @@ def test_get_albums(db_connection, page, test_web_address):
         "Released: 2020",
         "Released: 1965"
     ])
+
+# When I go to http://localhost:5001/albums/1
+# I get a single album
+
+def test_get_album(db_connection, page, test_web_address):
+    db_connection.seed("seeds/music_library.sql")
+    page.goto(f"http://{test_web_address}/albums/1")
+
+    h3_tags = page.locator("h3")
+    expect(h3_tags).to_have_text([
+        "Title: Surfer Rosa"
+    ])
+
+    paragraph_tags = page.locator("p")
+    expect(paragraph_tags).to_have_text([
+        "Released: 1988"
+    ])
     
 # When I call GET /artists
 # I get a list of artists back
