@@ -1,10 +1,11 @@
 class Album:
 
-    def __init__(self, id, title, release_year, artist_id):
+    def __init__(self, id, title, release_year, artist_id, artist = ""):
         self.id = id
         self.title = title
         self.release_year = release_year
         self.artist_id = artist_id
+        self.artist = artist
 
     # This method allows our tests to assert that the object it expects are the objects we made based on the DB records
     def __eq__(self, other):

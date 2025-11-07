@@ -17,13 +17,22 @@ def test_all(db_connection):
     ]
 
 # When we call AlbumRepository find method
-# We get an Album object reflecting the seed data
+# We get an Album object
 
 def test_find(db_connection):
     db_connection.seed("seeds/music_library.sql")
     repository = AlbumRepository(db_connection)
     album = repository.find(1)
     assert album == Album(1, "Surfer Rosa", 1988, 1)
+
+# When we call AlbumRepository find_with_artist method
+# We get an Album object with artist name
+
+def test_find_with_artist(db_connection):
+    db_connection.seed("seeds/music_library.sql")
+    repository = AlbumRepository(db_connection)
+    album = repository.find_with_artist(1)
+    assert album == Album(1, "Surfer Rosa", 1988, 1, "Pixies")
 
 # When we call AlbumRepository create method
 # I create an album in the DB

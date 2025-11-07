@@ -17,6 +17,15 @@ class AlbumRepository:
         row = rows[0]
         return Album(row['id'], row['title'], row['release_year'], row['artist_id'])
     
+    # Find a single album by its id alongside it's artist name
+    def find_with_artist(self, album_id):
+        rows = self._connection.execute_query(
+            'SELECT albums.id, albums.title, albums.release_year, albums.artist_id, artists.name as artist_name ' \
+            'FROM albums JOIN artists ON albums.artist_id = artists.id ' \
+            'WHERE albums.id = %s', [album_id])
+        row = rows[0]
+        return Album(row['id'], row['title'], row['release_year'], row['artist_id'], row['artist_name'])
+    
     # Create a new album
     def create(self, album):
         rows = self._connection.execute_query('INSERT INTO albums (title, release_year, artist_id) VALUES (%s, %s, %s) RETURNING id', [album.title, album.release_year, album.artist_id])
