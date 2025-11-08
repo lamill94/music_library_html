@@ -47,15 +47,36 @@ def get_artist(id):
     db_artist = repository.find_with_albums(id)
     return render_template('artists/show.html', artist = db_artist)
 
+# GET /albums/new
+# Returns a form to create a new book
+@app.route('/albums/new', methods = ['GET'])
+def get_new_book():
+    return render_template('albums/new.html')
+
+# POST /albums
+# Creates a new album
 @app.route('/albums', methods = ['POST'])
-def post_albums():
-    if 'title' not in request.form or 'release_year' not in request.form or 'artist_id' not in request.form:
-        return "You need to submit a title, release_year and artist_id", 400
+def create_album():
     connection = get_flask_database_connection(app)
     repository = AlbumRepository(connection)
-    album = Album(None, request.form['title'], request.form['release_year'], request.form['artist_id'])
-    repository.create(album)
-    return "", 200
+
+    # Get the fields from the request form
+    title = request.form['title']
+    release_year = request.form['release_year']
+    artist_id = request.form['artist_id']
+
+    # Create a new album object
+    album = Album(None, title, release_year, artist_id)
+
+    # Check for validity and if not valid, show the form again with errors
+    if not album.is_valid():
+        return render_template('albums/new.html', album = album, errors = album.generate_errors()), 400
+    
+    # Save the album to the database
+    album = repository.create(album)
+
+    # Redirect to the new album's show route so the user can see it
+    return redirect(f"/albums/{album.id}")
 
 @app.route('/artists', methods = ['POST'])
 def post_artists():

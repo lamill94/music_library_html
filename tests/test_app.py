@@ -88,29 +88,26 @@ def test_visit_artist_show_page_and_go_back(db_connection, page, test_web_addres
     h1_tag = page.locator("h1")
     expect(h1_tag).to_have_text("Artists")
 
-# When I call POST /albums with album info
-# That album is now in the list in GET /albums
-"""
-def test_post_albums(db_connection, web_client):
-    db_connection.seed("seeds/music_library.sql")
-    post_response = web_client.post("/albums", data = {
-        'title': 'Baltimore',
-        'release_year': '1978',
-        'artist_id': '4'
-    })
-    assert post_response.status_code == 200
-    assert post_response.data.decode('utf-8') == ""
+# When I create a new album
+# We see it in the albums index
 
-    get_response = web_client.get("/albums")
-    assert get_response.status_code == 200
-    assert get_response.data.decode('utf-8') == "\n".join([
-        "Album(1, Surfer Rosa, 1988, 1)",
-        "Album(2, Waterloo, 1974, 2)",
-        "Album(3, Folklore, 2020, 3)",
-        "Album(4, I Put a Spell on You, 1965, 4)",
-        "Album(5, Baltimore, 1978, 4)"
+def test_create_album(db_connection, page, test_web_address):
+    db_connection.seed("seeds/music_library.sql")
+    page.goto(f"http://{test_web_address}/albums")
+    page.click("text=Add a new album")
+    page.fill("input[name='title']", "Here Comes the Sun")
+    page.fill("input[name='release_year']", "1971")
+    page.fill("input[name='artist_id']", "4")
+    page.click("text=Add album")
+
+    h1_tag = page.locator("h1")
+    expect(h1_tag).to_have_text("Album: Here Comes the Sun")
+
+    details_tag = page.locator(".details p")
+    expect(details_tag).to_have_text([
+        "Release year: 1971",
+        "Artist: Nina Simone"
     ])
-"""
 
 # When I call POST /artists with artist info
 # That artist is now in the list in GET /artists
@@ -129,24 +126,6 @@ def test_post_artists(db_connection, web_client):
         "Artist(3, Taylor Swift, Pop)",
         "Artist(4, Nina Simone, Jazz)",
         "Artist(5, Wild Nothing, Indie)"
-    ])
-"""
-# When I call POST /albums with no data
-# I get error message
-"""
-def test_post_albums_no_data(db_connection, web_client):
-    db_connection.seed("seeds/music_library.sql")
-    post_response = web_client.post("/albums")
-    assert post_response.status_code == 400
-    assert post_response.data.decode('utf-8') == "You need to submit a title, release_year and artist_id"
-
-    get_response = web_client.get("/albums")
-    assert get_response.status_code == 200
-    assert get_response.data.decode('utf-8') == "\n".join([
-        "Album(1, Surfer Rosa, 1988, 1)",
-        "Album(2, Waterloo, 1974, 2)",
-        "Album(3, Folklore, 2020, 3)",
-        "Album(4, I Put a Spell on You, 1965, 4)"
     ])
 """
 

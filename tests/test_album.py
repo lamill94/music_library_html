@@ -21,3 +21,18 @@ def test_albums_are_equal():
 def test_stringify():
     album = Album(1, "Surfer Rosa", 1988, 1)
     assert str(album) == "Album(1, Surfer Rosa, 1988, 1)"
+
+# Test album's validity
+
+def test_album_validity():
+    assert Album(1, "", "", "").is_valid() == False
+    assert Album(1, None, None, None).is_valid() == False
+    assert Album(1, "Surfer Rosa", 1988, 1).is_valid() == True
+
+# Test album's errors
+
+def test_album_errors():
+    assert Album(1, "", "", "").generate_errors() == "Title can't be blank, Release year can't be blank, Artist ID can't be blank"
+    assert Album(1, "", "", 1).generate_errors() == "Title can't be blank, Release year can't be blank"
+    assert Album(1, "", 1988, 1).generate_errors() == "Title can't be blank"
+    assert Album(1, "Surfer Rosa", 1988, 1).generate_errors() == None
