@@ -78,17 +78,9 @@ def create_album():
     # Redirect to the new album's show route so the user can see it
     return redirect(f"/albums/{album.id}")
 
-@app.route('/artists', methods = ['POST'])
-def post_artists():
-    if 'name' not in request.form or 'genre' not in request.form:
-        return "You need to submit a name and genre", 400
-    connection = get_flask_database_connection(app)
-    repository = ArtistRepository(connection)
-    artist = Artist(None, request.form['name'], request.form['genre'])
-    repository.create(artist)
-    return "", 200
+## For the routes above - do same for artists
 
-# Can add GET (for single id), DELETE and PATCH routes for albums and artists - also need to add tests for these
+# Can add DELETE routes for albums and artists - also need to add tests for these (see python-html-web-app-project-starter)
 
 # These lines start the server if you run this file directly
 # They also start the server configured to use the test DB if started in test mode

@@ -109,41 +109,12 @@ def test_create_album(db_connection, page, test_web_address):
         "Artist: Nina Simone"
     ])
 
-# When I call POST /artists with artist info
-# That artist is now in the list in GET /artists
-"""
-def test_post_artists(db_connection, web_client):
+# Test create album error
+
+def test_create_album_error(db_connection, page, test_web_address):
     db_connection.seed("seeds/music_library.sql")
-    post_response = web_client.post("/artists", data = {'name': 'Wild Nothing', 'genre': 'Indie'})
-    assert post_response.status_code == 200
-    assert post_response.data.decode('utf-8') == ""
-
-    get_response = web_client.get("/artists")
-    assert get_response.status_code == 200
-    assert get_response.data.decode('utf-8') == "\n".join([
-        "Artist(1, Pixies, Rock)",
-        "Artist(2, ABBA, Pop)",
-        "Artist(3, Taylor Swift, Pop)",
-        "Artist(4, Nina Simone, Jazz)",
-        "Artist(5, Wild Nothing, Indie)"
-    ])
-"""
-
-# When I call POST /artists with no data
-# I get error message
-"""
-def test_post_artists_no_data(db_connection, web_client):
-    db_connection.seed("seeds/music_library.sql")
-    post_response = web_client.post("/artists")
-    assert post_response.status_code == 400
-    assert post_response.data.decode('utf-8') == "You need to submit a name and genre"
-
-    get_response = web_client.get("/artists")
-    assert get_response.status_code == 200
-    assert get_response.data.decode('utf-8') == "\n".join([
-        "Artist(1, Pixies, Rock)",
-        "Artist(2, ABBA, Pop)",
-        "Artist(3, Taylor Swift, Pop)",
-        "Artist(4, Nina Simone, Jazz)"
-    ])
-"""
+    page.goto(f"http://{test_web_address}/albums")
+    page.click("text=Add a new album")
+    page.click("text=Add album")
+    errors = page.locator(".errors")
+    expect(errors).to_have_text("There were errors with your submission: Title can't be blank, Release year can't be blank, Artist ID can't be blank")
